@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clutch IQ — RL Matchmaking Lab</title>
+<meta name="description" content="Clutch IQ: adaptive competitive-gaming matchmaking with a full reinforcement-learning laboratory (bandits, MDP, dynamic programming, Monte Carlo, Q-learning).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<aside class="rail" id="rail" aria-label="Main navigation">
+  <div class="brand">
+    <div class="mark"><span class="pulse" aria-hidden="true"></span>CLUTCH IQ</div>
+    <p>Adaptive matchmaking · RL laboratory</p>
+  </div>
+  <nav class="nav" id="nav">
+    <button data-go="overview" aria-current="page">Mission control</button>
+    <h6>Operations</h6>
+    <button data-go="ops-data">Data &amp; upload</button>
+    <button data-go="ops-queue">Live queue &amp; matchmaking</button>
+    <button data-go="ops-tournament">Tournament</button>
+    <button data-go="ops-burnout">Burnout &amp; coach</button>
+    <h6>RL control room</h6>
+    <button data-go="ctl-session">Live session <span class="u">U1</span></button>
+    <button data-go="ctl-q">Q-learning <span class="u">TD</span></button>
+    <button data-go="ctl-mdp">MDP explorer <span class="u">U3</span></button>
+    <button data-go="ctl-dp">Dynamic programming <span class="u">U4</span></button>
+    <h6>RL lab</h6>
+    <button data-go="lab-bandit">Bandit arena <span class="u">U2</span></button>
+    <button data-go="lab-mc">Monte Carlo lab <span class="u">U5</span></button>
+    <button data-go="lab-compare">Algorithm comparison</button>
+    <h6>Academic / viva</h6>
+    <button data-go="acad-viva">Viva questions</button>
+    <button data-go="acad-syllabus">Syllabus mapping</button>
+    <button data-go="acad-formulation">Mathematical formulation</button>
+    <button data-go="acad-numericals">Notes numericals</button>
+    <button data-go="acad-experiments">Experiment results</button>
+    <button data-go="acad-architecture">Architecture</button>
+    <button data-go="acad-limitations">Limitations &amp; honesty</button>
+  </nav>
+  <div class="rail-foot">v4.0 · seeded &amp; reproducible</div>
+</aside>
+
+<header class="topbar">
+  <button class="btn sm menu-btn" id="menuBtn" aria-label="Open navigation">Menu</button>
+  <div class="engine" id="engineBadge" title="Which engine computes the results"><i></i><span id="engineText">Checking engine…</span></div>
+  <button class="btn sm" id="engineBtn">Backend settings</button>
+  <div class="grow"></div>
+  <span class="prov real">Real data</span><span class="prov sim">Simulated</span><span class="prov model">Model estimate</span><span class="prov derived">Derived feature</span><span class="prov proxy">Fallback / proxy</span>
+  <label class="switch" title="Show the academic explanation of every component"><input type="checkbox" id="vivaToggle"> Viva mode</label>
+</header>
+
+<div class="panel hidden" id="enginePanel" style="position:fixed;top:56px;left:calc(var(--rail) + 28px);z-index:60;width:min(440px,calc(100vw - 32px))">
+  <h2>Compute engine</h2>
+  <p class="sub">With the FastAPI backend reachable, every RL result is computed in Python. Without it, the identical in-browser engine (same PRNG, same algorithms, parity-tested) takes over, so the labs always work.</p>
+  <div class="field"><label for="backendUrl">Backend API base URL</label><input type="url" id="backendUrl" value="/api"></div>
+  <div class="row" style="margin-top:10px">
+    <button class="btn primary sm" id="engineConnect">Connect</button>
+    <button class="btn sm" id="engineOffline">Use browser engine</button>
+    <button class="btn sm" id="engineClose">Close</button>
+  </div>
+  <p class="sub" id="engineMsg" style="margin-top:10px"></p>
+</div>
+
+<main id="main">
+  <section class="screen on" id="overview"></section>
+  <section class="screen" id="ops-data"></section>
+  <section class="screen" id="ops-queue"></section>
+  <section class="screen" id="ops-tournament"></section>
+  <section class="screen" id="ops-burnout"></section>
+  <section class="screen" id="ctl-session"></section>
+  <section class="screen" id="ctl-q"></section>
+  <section class="screen" id="ctl-mdp"></section>
+  <section class="screen" id="ctl-dp"></section>
+  <section class="screen" id="lab-bandit"></section>
+  <section class="screen" id="lab-mc"></section>
+  <section class="screen" id="lab-compare"></section>
+  <section class="screen" id="acad-viva"></section>
+  <section class="screen" id="acad-syllabus"></section>
+  <section class="screen" id="acad-formulation"></section>
+  <section class="screen" id="acad-numericals"></section>
+  <section class="screen" id="acad-experiments"></section>
+  <section class="screen" id="acad-architecture"></section>
+  <section class="screen" id="acad-limitations"></section>
+</main>
+
+<div class="tip" id="tip" role="tooltip"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/config.js"></script>
+<script src="assets/static_data.js"></script>
+<script src="assets/rl_engine.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app_core.js"></script>
+<script src="assets/ops.js"></script>
+<script src="assets/control.js"></script>
+<script src="assets/lab.js"></script>
+<script src="assets/academic.js"></script>
+<script>App.boot();</script>
+</body>
+</html>

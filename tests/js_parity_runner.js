@@ -1,0 +1,27 @@
+// Runs the browser engine under Node and prints JSON for tests/test_js_parity.py
+require('../assets/static_data.js');
+const RL = require('../assets/rl_engine.js');
+const out = {};
+const r = new RL.Mulberry32(12345); out.prng = [r.random(), r.random(), r.random()];
+const ep = RL.generateEpisode(RL.heuristicPolicy(), 123, { startDist: 'session_start' });
+out.episode = ep.transitions.map(t => [t.state, t.action, t.reward, t.next_state]);
+const m = RL.getModel(300, 3, 0.9); out.model_P_row = m.P[17][2]; out.model_R_row = m.R[17][2];
+const vi = RL.valueIteration(m, 0.9, 1e-10); out.vi_V = vi.V; out.vi_actions = vi.actions; out.vi_iters = vi.iterations;
+const pi = RL.policyIteration(m, 0.9, 1e-10); out.pi_actions = pi.actions;
+const pe = RL.policyEvaluation(m, RL.uniformPolicy(), 0.9, 1e-10); out.pe_V = pe.V;
+out.mrp = m.mrpClosedForm(RL.uniformPolicy(), 0.9);
+const mcp = RL.mcPredictionRun(RL.heuristicPolicy(), 400, 0.9, 11, 'uniform', null, [400]); out.mc_fv = mcp.V_first_visit; out.mc_ev = mcp.V_every_visit;
+const mcc = RL.mcControl('on_policy', 800, 0.9, 0.1, 7); out.mcc_actions = mcc.actions; out.mcc_Q = mcc.Q;
+const mces = RL.mcControl('es', 500, 0.9, 0.1, 7); out.mces_actions = mces.actions;
+const mcoff = RL.mcControl('off_policy', 500, 0.9, 0.1, 7, 'uniform', null, null, 20, 0.3); out.mcoff_Q = mcoff.Q;
+const heur = RL.heuristicActions().concat([1]);
+const ope = RL.offPolicyPrediction(RL.epsilonSoft(heur, 0.1), RL.epsilonSoft(heur, 0.3), 300, 0.9, 4); out.ope = [ope.J_ordinary_is, ope.J_weighted_is, ope.J_per_decision_is, ope.J_discounting_aware_ois, ope.J_discounting_aware_wis];
+const q = RL.qTrain({ episodes: 1500, seed: 11 }); out.q_Q = q.Q;
+const ev = RL.evaluatePolicy(RL.heuristicPolicy(), 200, 2026, 0.9, 'session_start'); out.eval = [ev.discounted_return.mean, ev.rage_quit_rate.mean, ev.session_length.mean];
+const b = RL.runBandit('ucb', [0.2, 0.5, 0.8, 0.4], 300, 9, { c: 1.0 }); out.bandit_ucb_arms = b.arms;
+const be = RL.runBandit('epsilon_greedy', [0.2, 0.5, 0.8, 0.4], 300, 9, { epsilon: 0.1, reward_model: 'gaussian', sigma: 0.2, nonstationary: 'drift' }); out.bandit_eps_Q = be.Q;
+const bp = RL.runBandit('greedy', [0.2, 0.5, 0.8, 0.4], 200, 4, { nonstationary: 'patch' }); out.bandit_patch_means = bp.final_means;
+out.arms = RL.mapArms(globalThis.CLUTCH_STATIC.sample_maps, ['Aggressive Entry','Aggressive Entry','Aggressive Entry','Aggressive Entry','Sniper/Isolation','Sniper/Isolation','Sniper/Isolation','Flex Rotator','Flex Rotator','Passive Support'].map(a => ({ archetype: a })), 10).map(a => a.q_star);
+const nums = RL.allNumericals(); out.numericals = nums.map(n => [n.id, n.match]);
+const tr = RL.call('POST', '/rl/trajectory', { seed: 3 }); out.traj = tr.steps.map(s => [s.state, s.action]);
+console.log(JSON.stringify(out));

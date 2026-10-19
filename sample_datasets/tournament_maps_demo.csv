@@ -1,0 +1,9 @@
+rank,map_name,size,layout,best_modes,recommended_playstyle,sniper_friendly,description
+1,Nuketown,Small,Symmetrical,"Team Deathmatch, Frontline",Aggressive Entry,No,Tiny two-lane map for close fights.
+2,Crash,Medium,Three-lane,"Team Deathmatch, Domination",Flex Rotator,No,Balanced three-lane layout.
+3,Summit,Large,Open,"Hardpoint, Control",Sniper/Isolation,Yes,Long sightlines and elevated perches.
+4,Raid,Medium,Interior,"Search, Hardpoint",Objective Anchor,No,Tight interiors around two objectives.
+5,Hijacked,Small,Linear,Team Deathmatch,Aggressive Entry,No,"Compact deck, constant contact."
+6,Terminal,Large,Hub,"Control, Domination",Passive Support,Yes,Central hub with flanking corridors.
+7,Rust,Medium,Open,Domination,Flex Rotator,Yes,Dusty yard with mixed ranges.
+8,Scrapyard,Medium,Maze,Search,Objective Anchor,No,Cluttered lanes reward map knowledge.

@@ -1,0 +1,13 @@
+# Render blueprint: the Python API as one always-on web service.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+services:
+  - type: web
+    name: clutchiq-api
+    runtime: python
+    plan: free                 # sleeps when idle; use "starter" for a demo that must answer instantly
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend_app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7

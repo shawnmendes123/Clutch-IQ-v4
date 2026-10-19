@@ -1,0 +1,5 @@
+tests/
+legacy/
+tools/
+__pycache__/
+.pytest_cache/

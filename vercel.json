@@ -1,0 +1,6 @@
+{
+  "cleanUrls": true,
+  "functions": {
+    "api/index.py": { "maxDuration": 60 }
+  }
+}
